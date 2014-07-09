@@ -5,19 +5,24 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 public class DataReader {
 	
 	static Hashtable<String, Hashtable<Date, WeatherInfo>> cityData = new Hashtable<String, Hashtable<Date, WeatherInfo>>();  
+	static Hashtable<String, String> locations = new Hashtable<String, String>();
 	public static void main(String[] args) {
 		loadData();
 	}
+	public static String getLocationCode(String location){
+		return locations.get(location);
+	}
 	
-	public static void loadData() {
+	public synchronized static void loadData() {
 		try {
 			URL oracle = new URL(
-					"ftp://ftp.meteo.psu.edu/pub/bufkit/nam_kord.buf");
+					"http://www.meteor.iastate.edu/~ckarsten/bufkit/data/nam/nam_kord.buf");
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					oracle.openStream()));
 			String inputLine;
@@ -78,6 +83,8 @@ public class DataReader {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+		
+		locations.put("O'HARE", "KORD");
 	}
 
 	public static double getDWPC(String location, Date dateTime) {
@@ -95,6 +102,10 @@ public class DataReader {
 		Hashtable<Date, WeatherInfo> timeWeatherInfo = cityData.get(location);
 		if (timeWeatherInfo != null){
 			WeatherInfo weatherInfo = timeWeatherInfo.get(dateTime);
+			Enumeration<Date> keys = timeWeatherInfo.keys();
+			while(keys.hasMoreElements()){
+				System.out.println(keys.nextElement());
+			}
 			if (weatherInfo != null){
 				return weatherInfo.getTmpc();
 			}
