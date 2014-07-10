@@ -35,15 +35,24 @@ public class LocationReader extends Composite  {
 
 	public LocationReader() {
 		initWidget(uiBinder.createAndBindUi(this));
+		DateTimeFormat format = DateTimeFormat.getFormat("HH:00");
+		String currTime = format.format(new Date());
+		String time;
 		for (int i = 0; i < 24; i++){
-			if (i < 10)
-				timeCombo.addItem("0" + i + ":00");
-			else
-				timeCombo.addItem(i + ":00");
+			if (i < 10){
+				time = "0" + i + ":00";
+			}else{
+				time = i + ":00";
+			}
+			timeCombo.addItem(time);
+			if (time.equals(currTime)){
+				timeCombo.setSelectedIndex(i);
+			}
 		}
-		locationCombo.addItem("KORD", "CHICAGO O'HARE");
+		locationCombo.addItem("O'HARE", "O'HARE");
 		dateTxt.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("MM/dd/yyyy")));
-
+		dateTxt.setValue(new Date());
+		pullTime();
 	}
 
 	public LocationReader(String firstName) {
@@ -54,7 +63,10 @@ public class LocationReader extends Composite  {
 
 	@UiHandler("button")
 	void onButtonClick(ClickEvent event) {
-		
+		pullTime();
+	}
+	
+	public void pullTime(){
 		Date dateTime =  dateTxt.getDatePicker().getValue();
 		String timetxt = timeCombo.getValue(timeCombo.getSelectedIndex());
 		
@@ -62,16 +74,22 @@ public class LocationReader extends Composite  {
 			
 			@Override
 			public void onSuccess(String[] result) {
-				temperatureLbl.setText(result[0]);
-				humidityLbl.setText(result[1]);
+				if (result.length == 2){
+					temperatureLbl.setText(result[0]);
+					humidityLbl.setText(result[1]);
+				}
+				else{
+					Window.alert("Error " + result[0]);
+					temperatureLbl.setText("N/A");
+					humidityLbl.setText("N/A");
+				}
 			}
 			
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("Error calculating Relative Humidity :: " + caught.getMessage());
+				Window.alert("Error calculating the weather information :: " + caught.getMessage());
 			}
 		});	
-		
 	}
 	
 }

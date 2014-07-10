@@ -1,3 +1,2 @@
 # Module weatherman
 # RPC service class, partial path of RPC policy file
-neiu.edu.cs404.summer.client.WeatherService, A2688F31CD4A91CE32CF4C0A2730211C.gwt.rpc
