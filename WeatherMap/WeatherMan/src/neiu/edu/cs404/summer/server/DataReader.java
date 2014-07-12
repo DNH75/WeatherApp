@@ -84,7 +84,7 @@ public class DataReader {
 			ex.printStackTrace();
 		}
 		
-		locations.put("O'HARE", "KORD");
+		locations.put("Chicago, IL", "KORD");
 	}
 
 	public static double getDWPC(String location, Date dateTime) {
@@ -102,10 +102,6 @@ public class DataReader {
 		Hashtable<Date, WeatherInfo> timeWeatherInfo = cityData.get(location);
 		if (timeWeatherInfo != null){
 			WeatherInfo weatherInfo = timeWeatherInfo.get(dateTime);
-			Enumeration<Date> keys = timeWeatherInfo.keys();
-			while(keys.hasMoreElements()){
-				System.out.println(keys.nextElement());
-			}
 			if (weatherInfo != null){
 				return weatherInfo.getTmpc();
 			}
@@ -113,5 +109,16 @@ public class DataReader {
 		throw new RuntimeException("No weather data found for the city and the time");
 	}
 	
+	public static double getSknt(String location, Date dateTime)
+	{
+		Hashtable<Date, WeatherInfo> timeWeatherInfo = cityData.get(location);
+		if (timeWeatherInfo != null){
+			WeatherInfo weatherInfo = timeWeatherInfo.get(dateTime);
+			if (weatherInfo != null){
+				return weatherInfo.getSknt();
+			}
+		}
+		throw new RuntimeException("No weather data found for the city and the time");
+	}
 	
 }

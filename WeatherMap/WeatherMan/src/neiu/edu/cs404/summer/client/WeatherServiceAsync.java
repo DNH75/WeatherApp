@@ -9,4 +9,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  */
 public interface WeatherServiceAsync {
 	void getWeatherData(String location, Date dateToPick, String timeText, AsyncCallback<String[]> callback) throws IllegalArgumentException;
+
+	void getCurrentTemperature(String location, AsyncCallback<String[]> callback) throws IllegalArgumentException;
 }

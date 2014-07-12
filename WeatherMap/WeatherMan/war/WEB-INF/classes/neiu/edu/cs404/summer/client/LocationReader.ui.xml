@@ -5,48 +5,75 @@
 		.important {
 			font-weight: bold;
 		}
+		.temp-Text {
+		}
+		.pic
+{
+    background: url(images/mypic.jpg);
+    height: auto;
+    width: auto;
+} {
+		}
 	</ui:style>
-	<g:HTMLPanel>
-		<g:HTMLPanel width="402px">
-			<g:AbsolutePanel height="371px" width="401px">
-			<g:at left="43" top="83">
+	<g:HTMLPanel width="100%">
+		<g:AbsolutePanel height="506px" width="100%">
+			<g:at left="42" top="151">
+				<g:Label width="63px" height="67px" styleName="sendButton" ui:field="lblWeatherIcon"/>
+			</g:at>
+			<g:at left="2" top="289">
 				<g:Label text="Location" width="99px" height="18px" horizontalAlignment="ALIGN_RIGHT"></g:Label>
 			</g:at>
-			<g:at left="148" top="187">
-				<g:Button  text="Search" ui:field="button" width="67px" height="30px"/>
+			<g:at left="110" top="381">
+				<g:Button  text="Search" ui:field="btnSearch" width="93px" height="30px"/>
 			</g:at>
-			<g:at left="10" top="24">
-				<g:Label text="WELCOME TO THE WEATHER APP" width="381px" height="41px" horizontalAlignment="ALIGN_CENTER" styleName="sendButton"/>
+			<g:at left="48" top="23">
+				<g:Label width="381px" height="41px" horizontalAlignment="ALIGN_CENTER" styleName="sendButton"/>
 			</g:at>
-			<g:at left="43" top="119">
+			<g:at left="2" top="324">
 				<g:Label width="99px" height="18px" horizontalAlignment="ALIGN_RIGHT" text="Date"/>
 			</g:at>
-			<g:at left="43" top="155">
+			<g:at left="2" top="351">
 				<g:Label width="99px" height="18px" horizontalAlignment="ALIGN_RIGHT" text="Time"/>
 			</g:at>
-			<g:at left="145" top="109">
-				<p1:DateBox ui:field="dateTxt"/>
+			<g:at left="110" top="318">
+				<p1:DateBox ui:field="txtDate" width="104px" height="16px"/>
 			</g:at>
-			<g:at left="148" top="155">
-				<g:ListBox width="67px" height="22px" name="timeCmbBox" ui:field="timeCombo"/>
+			<g:at left="110" top="351">
+				<g:ListBox width="93px" height="22px" name="timeCmbBox" ui:field="cmbTime"/>
 			</g:at>
-			<g:at left="148" top="75">
-				<g:ListBox width="118px" height="22px" ui:field="locationCombo"/>
+			<g:at left="112" top="289">
+				<g:ListBox width="118px" height="22px" ui:field="cmbLocation"/>
 			</g:at>
-			<g:at left="160" top="248">
-				<g:Label width="214px" height="18px" ui:field="temperatureLbl" text="Loading.."/>
+			<g:at left="43" top="454">
+				<g:Label width="214px" height="18px" ui:field="lblHumidity"/>
 			</g:at>
-			<g:at left="160" top="283">
-				<g:Label width="214px" height="18px" ui:field="humidityLbl" text="Loading.."/>
+			<g:at left="258" top="163">
+				<g:Label width="171px" height="18px" horizontalAlignment="ALIGN_LEFT" ui:field="lblCurrentHumidity"/>
 			</g:at>
-			<g:at left="0" top="248">
-				<g:Label width="142px" height="18px" horizontalAlignment="ALIGN_RIGHT" text="Temperature"/>
+			<g:at left="251" top="226">
+				<g:HTML wordWrap="true"></g:HTML>
 			</g:at>
-			<g:at left="0" top="283">
-				<g:Label width="142px" height="18px" horizontalAlignment="ALIGN_RIGHT" text="Relative Humidity"/>
+			<g:at left="43" top="430">
+				<g:Label width="214px" height="18px" ui:field="lblTemperature"/>
 			</g:at>
+			<g:at left="37" top="46">
+				<g:Label text="Chicago, IL" width="415px" height="58px" horizontalAlignment="ALIGN_LEFT" styleName="currentWeatherLabel" ui:field="lblCurrentLocation"/>
+			</g:at>
+			<g:at left="258" top="187">
+				<g:Label width="171px" height="18px" horizontalAlignment="ALIGN_LEFT" ui:field="lblCurrentWind"/>
+			</g:at>
+			<g:at left="93" top="141">
+				<g:Label width="118px" height="64px" styleName="tempLabel" ui:field="lblCurrentTemp" horizontalAlignment="ALIGN_RIGHT"/>
+			</g:at>
+			<g:at left="208" top="163">
+				<g:Label width="29px" height="39px" ui:field="lblDegree"/>
+			</g:at>
+			<g:at left="42" top="478">
+				<g:Label width="214px" height="18px" ui:field="lblWind"/>
+			</g:at>
+
 		</g:AbsolutePanel>
-		</g:HTMLPanel>
+		
 
 	</g:HTMLPanel>
 </ui:UiBinder> 

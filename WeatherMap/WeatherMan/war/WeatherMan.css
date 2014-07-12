@@ -32,3 +32,45 @@ h1 {
 #closeButton {
   margin: 15px 6px 6px;
 }
+
+.tempLabel {
+ font-size: 6em;
+}
+.currentWeatherLabel {
+	font-size: 3em;
+}
+.weatherIcon-partly-cloudy {
+    background: url(images/partly_cloudy.png);
+    height: auto;
+    width: auto;
+}
+
+.weatherIcon-fog {
+    background: url(images/fog.png);
+    height: auto;
+    width: auto;
+}
+
+.weatherIcon-cloudy {
+    background: url(images/cloudy.png);
+    height: auto;
+    width: auto;
+}
+
+.weatherIcon-rain-s-cloudy {
+    background: url(images/rain_s_cloudy.png);
+    height: auto;
+    width: auto;
+}
+
+.weatherIcon-sunny {
+    background: url(images/sunny.png);
+    height: auto;
+    width: auto;
+}
+
+.weatherIcon-thunderstorm {
+    background: url(images/thunderstorms.png);
+    height: auto;
+    width: auto;
+}

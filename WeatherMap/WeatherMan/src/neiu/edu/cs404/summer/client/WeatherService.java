@@ -11,5 +11,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("greet")
 public interface WeatherService extends RemoteService {
 	public String[] getWeatherData(String location, Date dateToPick, String timeText);
-
+	public String[] getCurrentTemperature(String location);
 }

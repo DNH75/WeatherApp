@@ -24,7 +24,7 @@ public class WeatherServiceImpl extends RemoteServiceServlet implements
 	public String[] getWeatherData(String location, Date dateToPick, String timeText) {
 		try{
 			String locationCode = DataReader.getLocationCode(location);
-			Date time = new SimpleDateFormat("HH:mm").parse(timeText);
+			Date time = new SimpleDateFormat("hh:mm a").parse(timeText);
 			Calendar timeCal =  Calendar.getInstance();
 			timeCal.setTime(time);
 			Calendar cal = Calendar.getInstance();
@@ -35,13 +35,32 @@ public class WeatherServiceImpl extends RemoteServiceServlet implements
 			cal.set(Calendar.MILLISECOND,0);
 			cal.add(Calendar.HOUR_OF_DAY, 5);
 			dateToPick = cal.getTime();
-			double tmpc =  DataReader.getTMPC(locationCode, dateToPick);
-			double dwpc = DataReader.getDWPC(locationCode, dateToPick);
-			double vp = 6.112 * Math.exp((17.67 * dwpc) / (243.50 + dwpc));
-			double svp = 6.112 * Math.exp((17.67 * tmpc) / (243.50 + tmpc));
-			return new String[]{new DecimalFormat("00").format( 32 + (tmpc * 9 / 5))  + "\u00b0F" , new DecimalFormat("00.00").format(vp * 100/svp) + "%"};
+			return getWeatherInfo(locationCode, dateToPick);
 		}catch(Exception ex){
 			return new String[]{"No weather information found for the date/time and location"};
 		}
+	}
+
+	@Override
+	public String[] getCurrentTemperature(String location) {
+		String locationCode = DataReader.getLocationCode(location);
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND,0);
+		cal.add(Calendar.HOUR_OF_DAY, 5);
+		System.out.println(cal.getTime());
+		return getWeatherInfo(locationCode, cal.getTime());
+	}
+	
+	public String[] getWeatherInfo(String locationCode, Date dateToPick){
+		double tmpc =  DataReader.getTMPC(locationCode, dateToPick);
+		double dwpc = DataReader.getDWPC(locationCode, dateToPick);
+		double vp = 6.112 * Math.exp((17.67 * dwpc) / (243.50 + dwpc));
+		double svp = 6.112 * Math.exp((17.67 * tmpc) / (243.50 + tmpc));
+		double windspeed = 1.15077945 * DataReader.getSknt(locationCode, dateToPick);
+		return new String[]{new DecimalFormat("###").format( 32 + (tmpc * 9 / 5))  , 
+				"Humidity: " + new DecimalFormat("##").format(vp * 100/svp) + "%", 
+				"Wind: " + new DecimalFormat("###").format(windspeed) + " mph" };
 	}
 }

@@ -16,18 +16,29 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
+import com.google.gwt.user.client.ui.TextBox;
 
 public class LocationReader extends Composite  {
 
 	private static LocationReaderUiBinder uiBinder = GWT.create(LocationReaderUiBinder.class);
 	
-	@UiField Button button;
-	@UiField ListBox timeCombo;
-	@UiField DateBox dateTxt;
-	@UiField ListBox locationCombo;
-	@UiField Label temperatureLbl;
-	@UiField Label humidityLbl;
-	
+	@UiField Button btnSearch;
+	@UiField ListBox cmbTime;
+	@UiField DateBox txtDate;
+	@UiField ListBox cmbLocation;
+	@UiField Label lblTemperature;
+	@UiField Label lblHumidity;
+	@UiField Label lblCurrentHumidity;
+	@UiField Label lblCurrentTemp;
+	@UiField Label lblCurrentWind;
+	@UiField Label lblDegree;
+	@UiField Label lblCurrentLocation;
+	@UiField Label lblWeatherIcon;
+	@UiField Label lblWind;
+	String[] times = new String[]{"12:00 AM", "01:00 AM", "02:00 AM", "03:00 AM", "04:00 AM", "05:00 AM", "06:00 AM", 
+			"07:00 AM", "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", 
+			"12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM", 
+			"07:00 PM", "08:00 PM", "09:00 PM", "10:00 PM", "11:00 PM" };
 	WeatherServiceAsync service = GWT.create(WeatherService.class);
 	
 	interface LocationReaderUiBinder extends UiBinder<Widget, LocationReader> {
@@ -35,24 +46,40 @@ public class LocationReader extends Composite  {
 
 	public LocationReader() {
 		initWidget(uiBinder.createAndBindUi(this));
-		DateTimeFormat format = DateTimeFormat.getFormat("HH:00");
+		DateTimeFormat format = DateTimeFormat.getFormat("hh:00 a");
 		String currTime = format.format(new Date());
-		String time;
-		for (int i = 0; i < 24; i++){
-			if (i < 10){
-				time = "0" + i + ":00";
-			}else{
-				time = i + ":00";
-			}
-			timeCombo.addItem(time);
-			if (time.equals(currTime)){
-				timeCombo.setSelectedIndex(i);
+		for (int i = 0; i < times.length; i++){
+			cmbTime.addItem(times[i]);
+			if (times[i].equals(currTime)){
+				cmbTime.setSelectedIndex(i);
 			}
 		}
-		locationCombo.addItem("O'HARE", "O'HARE");
-		dateTxt.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("MM/dd/yyyy")));
-		dateTxt.setValue(new Date());
-		pullTime();
+		cmbLocation.addItem("Chicago, IL", "Chicago, IL");
+		txtDate.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("MM/dd/yyyy")));
+		txtDate.setValue(new Date());
+		getCurrentTemperature();
+	}
+
+	private void getCurrentTemperature() {
+		String location = lblCurrentLocation.getText();
+		
+		service.getCurrentTemperature(location, new AsyncCallback<String[]>() {
+			
+			@Override
+			public void onSuccess(String[] result) {
+				lblCurrentTemp.setText(result[0]);
+				lblCurrentHumidity.setText(result[1]);
+				lblCurrentWind.setText(result[2]);
+				lblDegree.setText( "\u00b0F");
+				lblWeatherIcon.addStyleName("weatherIcon-partly-cloudy");
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Error calculating the current weather.");
+			}
+		});	
+		
 	}
 
 	public LocationReader(String firstName) {
@@ -61,27 +88,29 @@ public class LocationReader extends Composite  {
 
 
 
-	@UiHandler("button")
-	void onButtonClick(ClickEvent event) {
+	@UiHandler("btnSearch")
+	void onBtnSearchClick(ClickEvent event) {
 		pullTime();
 	}
 	
 	public void pullTime(){
-		Date dateTime =  dateTxt.getDatePicker().getValue();
-		String timetxt = timeCombo.getValue(timeCombo.getSelectedIndex());
+		Date dateTime =  txtDate.getDatePicker().getValue();
+		String timetxt = cmbTime.getValue(cmbTime.getSelectedIndex());
 		
-		service.getWeatherData(locationCombo.getItemText(locationCombo.getSelectedIndex()), dateTime, timetxt , new AsyncCallback<String[]>() {
+		service.getWeatherData(cmbLocation.getItemText(cmbLocation.getSelectedIndex()), dateTime, timetxt , new AsyncCallback<String[]>() {
 			
 			@Override
 			public void onSuccess(String[] result) {
-				if (result.length == 2){
-					temperatureLbl.setText(result[0]);
-					humidityLbl.setText(result[1]);
+				if (result.length >= 3){
+					lblTemperature.setText("Temperature: " + result[0] +  "\u00b0F" );
+					lblHumidity.setText(result[1]);
+					lblWind.setText(result[2]);
 				}
 				else{
 					Window.alert("Error " + result[0]);
-					temperatureLbl.setText("N/A");
-					humidityLbl.setText("N/A");
+					lblTemperature.setText("N/A");
+					lblHumidity.setText("N/A");
+					lblWind.setText("N/A");
 				}
 			}
 			
