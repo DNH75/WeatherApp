@@ -71,7 +71,7 @@ public class LocationReader extends Composite  {
 				lblCurrentHumidity.setText(result[1]);
 				lblCurrentWind.setText(result[2]);
 				lblDegree.setText( "\u00b0F");
-				lblWeatherIcon.addStyleName("weatherIcon-partly-cloudy");
+				lblWeatherIcon.addStyleName(result[3]);
 			}
 			
 			@Override

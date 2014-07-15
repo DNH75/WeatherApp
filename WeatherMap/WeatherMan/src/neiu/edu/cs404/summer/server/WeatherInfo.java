@@ -1,6 +1,13 @@
 package neiu.edu.cs404.summer.server;
 
-public class WeatherInfo {
+import java.io.Serializable;
+import java.util.Date;
+
+public class WeatherInfo implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6641054158153192543L;
 	double pres;
 	double tmpc;
 	double tmwc;
@@ -11,7 +18,7 @@ public class WeatherInfo {
 	double omeg;
 	double cfrl;
 	double hght;
-
+	Date time;
 	public double getPres() {
 		return pres;
 	}
@@ -91,5 +98,14 @@ public class WeatherInfo {
 	public void setHght(double hght) {
 		this.hght = hght;
 	}
+
+	public Date getTime() {
+		return time;
+	}
+
+	public void setTime(Date time) {
+		this.time = time;
+	}
+	
 
 }

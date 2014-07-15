@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import neiu.edu.cs404.summer.client.WeatherService;
+import neiu.edu.cs404.summer.shared.SkyCondition;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -16,9 +17,6 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class WeatherServiceImpl extends RemoteServiceServlet implements
 		WeatherService {
 
-	static{
-		DataReader.loadData();
-	}
 
 	@Override
 	public String[] getWeatherData(String location, Date dateToPick, String timeText) {
@@ -61,6 +59,52 @@ public class WeatherServiceImpl extends RemoteServiceServlet implements
 		double windspeed = 1.15077945 * DataReader.getSknt(locationCode, dateToPick);
 		return new String[]{new DecimalFormat("###").format( 32 + (tmpc * 9 / 5))  , 
 				"Humidity: " + new DecimalFormat("##").format(vp * 100/svp) + "%", 
-				"Wind: " + new DecimalFormat("###").format(windspeed) + " mph" };
+				"Wind: " + new DecimalFormat("###").format(windspeed) + " mph", 
+				getSkyConditionStyle(locationCode)};
 	}
+	
+	public String getSkyConditionStyle(String locationCode){
+		SkyCondition con = DataReader.getSkyCondition(locationCode);
+		if (con == SkyCondition.PARTLY_CLOUDY)
+			return "weatherIcon-partly-cloudy";
+		else if (con == SkyCondition.FOG)
+			return "weatherIcon-fog";
+		else if (con == SkyCondition.CLOUDY)
+			return "weatherIcon-cloudy";
+		else if (con == SkyCondition.FOG)
+			return "weatherIcon-fog";
+		else if (con == SkyCondition.RAIN)
+			return "weatherIcon-rain-s-cloudy";
+		else if (con == SkyCondition.SUNNY)
+			return "weatherIcon-sunny";
+		else if (con == SkyCondition.THUNDERSTORM)
+			return "weatherIcon-thunderstorm";
+		else
+			return "weatherIcon-partly-cloudy";
+		
+	}
+//
+//	. {
+//	    background: url(images/cloudy.png);
+//	    height: auto;
+//	    width: auto;
+//	}
+//
+//	. {
+//	    background: url(images/rain_s_cloudy.png);
+//	    height: auto;
+//	    width: auto;
+//	}
+//
+//	. {
+//	    background: url(images/sunny.png);
+//	    height: auto;
+//	    width: auto;
+//	}
+//
+//	. {
+//	    background: url(images/thunderstorms.png);
+//	    height: auto;
+//	    width: auto;
+//	}
 }
