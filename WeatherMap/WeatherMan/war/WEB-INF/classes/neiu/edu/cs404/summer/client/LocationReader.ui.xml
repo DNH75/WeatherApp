@@ -2,49 +2,37 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.user.datepicker.client">
 	<ui:style>
-		.important {
-			font-weight: bold;
-		}
-		.temp-Text {
-		}
-		.pic
-{
-    background: url(images/mypic.jpg);
-    height: auto;
-    width: auto;
-} {
-		}
 	</ui:style>
 	<g:HTMLPanel width="100%">
-		<g:AbsolutePanel height="506px" width="100%">
+		<g:AbsolutePanel height="648px" width="100%">
 			<g:at left="42" top="151">
 				<g:Label width="63px" height="67px" styleName="sendButton" ui:field="lblWeatherIcon"/>
 			</g:at>
-			<g:at left="2" top="289">
+			<g:at left="9" top="357">
 				<g:Label text="Location" width="99px" height="18px" horizontalAlignment="ALIGN_RIGHT"></g:Label>
 			</g:at>
-			<g:at left="110" top="381">
+			<g:at left="117" top="449">
 				<g:Button  text="Search" ui:field="btnSearch" width="93px" height="30px"/>
 			</g:at>
 			<g:at left="48" top="23">
 				<g:Label width="381px" height="41px" horizontalAlignment="ALIGN_CENTER" styleName="sendButton"/>
 			</g:at>
-			<g:at left="2" top="324">
+			<g:at left="9" top="392">
 				<g:Label width="99px" height="18px" horizontalAlignment="ALIGN_RIGHT" text="Date"/>
 			</g:at>
-			<g:at left="2" top="351">
+			<g:at left="9" top="419">
 				<g:Label width="99px" height="18px" horizontalAlignment="ALIGN_RIGHT" text="Time"/>
 			</g:at>
-			<g:at left="110" top="318">
+			<g:at left="117" top="386">
 				<p1:DateBox ui:field="txtDate" width="104px" height="16px"/>
 			</g:at>
-			<g:at left="110" top="351">
+			<g:at left="117" top="419">
 				<g:ListBox width="93px" height="22px" name="timeCmbBox" ui:field="cmbTime"/>
 			</g:at>
-			<g:at left="112" top="289">
+			<g:at left="119" top="357">
 				<g:ListBox width="118px" height="22px" ui:field="cmbLocation"/>
 			</g:at>
-			<g:at left="43" top="454">
+			<g:at left="43" top="516">
 				<g:Label width="214px" height="18px" ui:field="lblHumidity"/>
 			</g:at>
 			<g:at left="258" top="163">
@@ -53,7 +41,7 @@
 			<g:at left="251" top="226">
 				<g:HTML wordWrap="true"></g:HTML>
 			</g:at>
-			<g:at left="43" top="430">
+			<g:at left="43" top="492">
 				<g:Label width="214px" height="18px" ui:field="lblTemperature"/>
 			</g:at>
 			<g:at left="37" top="46">
@@ -68,8 +56,17 @@
 			<g:at left="208" top="163">
 				<g:Label width="29px" height="39px" ui:field="lblDegree"/>
 			</g:at>
-			<g:at left="42" top="478">
+			<g:at left="42" top="540">
 				<g:Label width="214px" height="18px" ui:field="lblWind"/>
+			</g:at>
+			<g:at left="42" top="110">
+				<g:Label text="Current Condition" width="161px" height="30px" styleName="subHeadingLabel"/>
+			</g:at>
+			<g:at left="50" top="307">
+				<g:Label width="266px" height="30px" text="Weather Forecast" styleName="subHeadingLabel"/>
+			</g:at>
+			<g:at left="278" top="307">
+				<g:Hyperlink text="Weather History" targetHistoryToken="newHistoryToken" width="162px" height="30px" styleName="subHeadingLabel" ui:field="hlHistory"/>
 			</g:at>
 
 		</g:AbsolutePanel>

@@ -17,6 +17,8 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.TreeMap;
 
+import com.ibm.icu.text.DecimalFormat;
+
 import neiu.edu.cs404.summer.shared.SkyCondition;
 
 public class DataReader {
@@ -151,7 +153,66 @@ public class DataReader {
 //		}
 //	}
 	
-	public static SkyCondition getSkyCondition(String cityCode){
+	public static String[] getCurrentTempWindSkyCondFromMetar(String cityCode){
+		CityInfo info = cities.get(cityCode);
+		if (info != null){
+			info.getMetarURL();
+			try{
+				URL url = new URL(info.getMetarURL());
+				BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+				String inputLine;
+				String values[];
+				String skyCond, temp, wind;
+				StringBuffer buffer = new StringBuffer();
+				while ((inputLine = in.readLine()) != null) {
+					if (inputLine.startsWith("METAR " + cityCode)){
+						if (inputLine.contains("RA")){
+							skyCond = SkyCondition.RAIN;
+						}
+						else if (inputLine.contains("TS"))
+						{
+							skyCond =  SkyCondition.THUNDERSTORM;
+						}
+						else if (inputLine.contains("COR")){
+							skyCond =  SkyCondition.SUNNY;
+						}
+						else if (inputLine.contains("OVC") || inputLine.contains("BKN")){
+							skyCond =  SkyCondition.CLOUDY;
+						}
+						else if (inputLine.contains("FEW")){
+							skyCond =  SkyCondition.PARTLY_CLOUDY;
+						}
+						else if (inputLine.contains("FG")){
+							skyCond =  SkyCondition.FOG;
+						}
+						else
+						{
+							skyCond =  SkyCondition.PARTLY_CLOUDY;
+						}
+						values = inputLine.split(" ");
+						temp = values[6].split("/")[0];
+						wind = values[3].substring(3);
+						for(int i = 0; i < 3; i ++){
+							if (Character.isDigit(wind.charAt(i))){
+								buffer.append(wind.charAt(i));	
+							}
+						}
+						wind = buffer.toString();
+						return new String[]{ 
+							new DecimalFormat("###").format(32 + (Integer.parseInt(temp) * 9 /5)),
+							new DecimalFormat("###").format(Integer.parseInt(wind) * 1.15),	
+							skyCond
+						}; 
+					}
+				}
+			}catch(Exception ex){
+				
+			}
+		}
+		return new String[]{};
+	}
+	
+	public static String getSkyCondition(String cityCode){
 		CityInfo info = cities.get(cityCode);
 		if (info != null){
 			try{

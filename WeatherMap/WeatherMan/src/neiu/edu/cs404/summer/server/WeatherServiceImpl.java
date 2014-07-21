@@ -48,7 +48,19 @@ public class WeatherServiceImpl extends RemoteServiceServlet implements
 		cal.set(Calendar.MILLISECOND,0);
 		cal.add(Calendar.HOUR_OF_DAY, 5);
 		System.out.println(cal.getTime());
-		return getWeatherInfo(locationCode, cal.getTime());
+		String[] data = DataReader.getCurrentTempWindSkyCondFromMetar(locationCode);
+		
+		double tmpc =  DataReader.getTMPC(locationCode, cal.getTime());
+		double dwpc = DataReader.getDWPC(locationCode, cal.getTime());
+		double vp = 6.112 * Math.exp((17.67 * dwpc) / (243.50 + dwpc));
+		double svp = 6.112 * Math.exp((17.67 * tmpc) / (243.50 + tmpc));
+		return new String[]{
+				data[0],
+				"Humidity: " + new DecimalFormat("##").format(vp * 100/svp) + "%",
+				"Wind: " + data[1] + " mph",
+				getSkyConditionStyle(data[2])
+		};
+		//return getWeatherInfo(locationCode, cal.getTime());
 	}
 	
 	public String[] getWeatherInfo(String locationCode, Date dateToPick){
@@ -64,7 +76,7 @@ public class WeatherServiceImpl extends RemoteServiceServlet implements
 	}
 	
 	public String getSkyConditionStyle(String locationCode){
-		SkyCondition con = DataReader.getSkyCondition(locationCode);
+		String con = DataReader.getSkyCondition(locationCode);
 		if (con == SkyCondition.PARTLY_CLOUDY)
 			return "weatherIcon-partly-cloudy";
 		else if (con == SkyCondition.FOG)

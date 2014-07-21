@@ -36,6 +36,11 @@ h1 {
 .tempLabel {
  font-size: 6em;
 }
+
+.subHeadingLabel {
+ font-size: 1.5em;
+}
+
 .currentWeatherLabel {
 	font-size: 3em;
 }

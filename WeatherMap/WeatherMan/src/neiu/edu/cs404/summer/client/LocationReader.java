@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -17,6 +18,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Hyperlink;
 
 public class LocationReader extends Composite  {
 
@@ -35,6 +37,7 @@ public class LocationReader extends Composite  {
 	@UiField Label lblCurrentLocation;
 	@UiField Label lblWeatherIcon;
 	@UiField Label lblWind;
+	@UiField Hyperlink hlHistory;
 	String[] times = new String[]{"12:00 AM", "01:00 AM", "02:00 AM", "03:00 AM", "04:00 AM", "05:00 AM", "06:00 AM", 
 			"07:00 AM", "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", 
 			"12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM", "04:00 PM", "05:00 PM", "06:00 PM", 
@@ -44,19 +47,27 @@ public class LocationReader extends Composite  {
 	interface LocationReaderUiBinder extends UiBinder<Widget, LocationReader> {
 	}
 
+	@SuppressWarnings("deprecation")
 	public LocationReader() {
 		initWidget(uiBinder.createAndBindUi(this));
 		DateTimeFormat format = DateTimeFormat.getFormat("hh:00 a");
-		String currTime = format.format(new Date());
+//		String currTime = format.format(new Date());
 		for (int i = 0; i < times.length; i++){
 			cmbTime.addItem(times[i]);
-			if (times[i].equals(currTime)){
-				cmbTime.setSelectedIndex(i);
-			}
+//			if (times[i].equals(currTime)){
+//				cmbTime.setSelectedIndex(i);
+//			}
 		}
 		cmbLocation.addItem("Chicago, IL", "Chicago, IL");
 		txtDate.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("MM/dd/yyyy")));
-		txtDate.setValue(new Date());
+//		txtDate.setValue(new Date());
+		hlHistory.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				Window.open("http://cs.neiu.edu/~nvedula/history.php", "_blank", ""); 
+			}
+		});
+		
 		getCurrentTemperature();
 	}
 
